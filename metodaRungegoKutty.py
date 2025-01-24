@@ -1,30 +1,20 @@
-def rk4(f, t0, y0, h, n):
+import numpy as np
+def rk4_numpy(f, t0, y0, h, n):
+    t_vals = [t0]
+    y_vals = [y0]
     t = t0
     y = y0
-    T = [t]
-    Y = [y]
 
     for _ in range(n):
         k1 = f(t, y)
-        k2 = f(t + 0.5*h, y + 0.5*h*k1)
-        k3 = f(t + 0.5*h, y + 0.5*h*k2)
-        k4 = f(t + h,     y + h*k3)
+        k2 = f(t + 0.5 * h, y + 0.5 * h * k1)
+        k3 = f(t + 0.5 * h, y + 0.5 * h * k2)
+        k4 = f(t + h, y + h * k3)
 
-        y += (h/6.0)*(k1 + 2*k2 + 2*k3 + k4)
+        y += (h / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
         t += h
 
-        T.append(t)
-        Y.append(y)
+        t_vals.append(t)
+        y_vals.append(y)
 
-    return T, Y
-f = lambda t, y: -y
-
-t0 = 0.0
-y0 = 1.0
-h = 0.1
-n = 100
-
-T, Y = rk4(f, t0, y0, h, n)
-
-for i in range(5):
-    print(T[i], Y[i])
+    return np.array(t_vals), np.array(y_vals)

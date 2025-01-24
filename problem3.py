@@ -4,22 +4,22 @@ import matplotlib.pyplot as plt
 from metodaEulera import euler_method
 from ulepszonaMetodaEulera import improved_euler_method
 from metodaRungegoKutty import rk4_numpy
-def problem1():
+def problem2():
     def dydx(x, y):
-        return x + y
+        return np.cos(x)+np.sin(x)
 
     def analytical_solution(x, y0):
-        return (y0 + 1) * np.exp(x) - x - 1
+        return np.sin(x)-np.cos(x)+1
 
-    equation = r"$\frac{dy}{dx} = x + y$"
-    solution = r"$y(x) = (y_0 + 1)e^x - x - 1$"
+    equation = r"$\frac{dy}{dx} =cos(x)+sin(x)$"
+    solution = r"$y(x) =sin(x)-cos(x)+1$"
 
     return dydx, analytical_solution, equation, solution
 
-dydx, analytical_solution, equation, solution = problem1()
+dydx, analytical_solution, equation, solution = problem2()
 
 x0 = 0
-y0 = 1
+y0 =0
 h = 0.1
 x_end = 2
 n = int((x_end - x0) / h)
