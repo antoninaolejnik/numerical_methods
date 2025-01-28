@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from metodaEulera import euler_method
 from ulepszonaMetodaEulera import improved_euler_method
 from metodaRungegoKutty import rk4_numpy
+from pomiarBledu import Errorcost
 def problem1():
     def dydx(x, y):
         return x + y
@@ -21,6 +22,7 @@ dydx, analytical_solution, equation, solution = problem1()
 x0 = 0
 y0 = 1
 h = 0.1
+
 x_end = 2
 n = int((x_end - x0) / h)
 
@@ -29,7 +31,7 @@ x_improved, y_improved = improved_euler_method(dydx, x0, y0, h, x_end)
 x_rk, y_rk = rk4_numpy(dydx, x0, y0, h, n)
 x_analytical = np.linspace(x0, x_end, 500)
 y_analytical = analytical_solution(x_analytical, y0)
-
+error_costs = Errorcost(dydx, h, x0, x_end, y0, n, analytical_solution)
 plt.figure(figsize=(12, 6))
 plt.plot(x_euler, y_euler, label=f"Metoda Eulera (h={h})", linestyle='--', color='turquoise',)
 plt.plot(x_improved, y_improved, label=f"Ulepszona Metoda Eulera (h={h})", marker='x', linestyle='-.', color='green')
@@ -49,7 +51,14 @@ plt.text(
     va='center',
     bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5')
 )
-
+plt.text(
+    x_end + 0.15, (max(y_analytical) + min(y_analytical)) / 4,
+    f"Metoda Eulera: {error_costs[0]:.4f}\nUlepszona Metoda Eulera: {error_costs[1]:.4f}\nRK: {error_costs[2]:.4f}",
+    fontsize=9.5,
+    ha='left',
+    va='center',
+    bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5')
+)
 plt.subplots_adjust(right=0.75)
 
 plt.show()
